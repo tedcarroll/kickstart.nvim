@@ -5,6 +5,7 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
     'nvim-neotest/neotest-python',
+    'rouge8/neotest-rust',
   },
   keys = {
     {
@@ -61,6 +62,7 @@ return {
     require('neotest').setup {
       adapters = {
         require 'neotest-python',
+        require 'neotest-rust',
       },
     }
   end,

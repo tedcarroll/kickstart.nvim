@@ -686,6 +686,8 @@ require('lazy').setup({
 
         ruff = {},
 
+        -- rust_analyzer configuration is handled by rustaceanvim plugin
+
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -773,6 +775,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         python = { 'ruff_organize_imports', 'ruff_format' },
+        rust = { 'rustfmt' },
         -- Conform can also run multiple formatters sequentially
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
@@ -948,7 +951,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'rust', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {

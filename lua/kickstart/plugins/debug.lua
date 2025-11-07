@@ -25,6 +25,7 @@ return {
     'leoluz/nvim-dap-go',
     'mfussenegger/nvim-dap-python',
   },
+  -- Use rustaceanvim for Rust debugging setup (configured separately)
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
     {
@@ -97,6 +98,7 @@ return {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
         'debugpy',
+        'codelldb',
       },
     }
 
