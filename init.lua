@@ -709,6 +709,7 @@ require('lazy').setup({
         -- ts_ls = {},
         --
 
+        basedpyright = {},
         ruff = {},
 
         -- rust_analyzer configuration is handled by rustaceanvim plugin
@@ -747,6 +748,7 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         'ruff', -- Python linter/formatter/LSP
         'mypy', -- Python type checker
+        'basedpyright',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
