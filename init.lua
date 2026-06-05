@@ -219,6 +219,31 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Reload buffers when the underlying file changes on disk (e.g. edits from
+-- external tools like Claude Code). `autoread` alone is passive — it only
+-- checks on certain triggers — so we also call `:checktime` on focus, buffer
+-- enter, and idle (CursorHold, gated by vim.o.updatetime).
+vim.o.autoread = true
+local autoread_group = vim.api.nvim_create_augroup('kickstart-autoread', { clear = true })
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  desc = 'Check for external file changes',
+  group = autoread_group,
+  callback = function()
+    -- Skip in command-line, hit-enter prompts, shell, and terminal modes,
+    -- where checktime can misbehave.
+    if not vim.fn.mode():match '^[cr!t]' and vim.fn.getcmdwintype() == '' then
+      vim.cmd 'silent! checktime'
+    end
+  end,
+})
+vim.api.nvim_create_autocmd('FileChangedShellPost', {
+  desc = 'Notify when a buffer was reloaded due to external change',
+  group = autoread_group,
+  callback = function()
+    vim.notify('File changed on disk. Buffer reloaded.', vim.log.levels.WARN)
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
