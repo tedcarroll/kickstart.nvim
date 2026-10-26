@@ -244,6 +244,10 @@ vim.api.nvim_create_autocmd('FileChangedShellPost', {
   end,
 })
 
+-- [[ Python virtualenv ]]
+--    Put the project's .venv on PATH before any LSP client starts.
+require 'custom.venv'
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -372,6 +376,7 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>r', group = '[R]eview' },
       },
     },
   },
@@ -747,7 +752,8 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'ruff', -- Python linter/formatter/LSP
-        'mypy', -- Python type checker
+        -- mypy is NOT installed here: Mason's copy runs in its own environment and
+        -- cannot see project packages. It comes from the project venv instead.
         'basedpyright',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -952,6 +958,14 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+
+      -- Indent scope visualization and textobjects
+      --
+      -- Examples:
+      --  - vii - [V]isually select [I]nside current [I]ndent scope
+      --  - vai - same, but [A]round (includes the bordering lines)
+      --  - [i / ]i - jump to top/bottom of current indent scope
+      require('mini.indentscope').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
